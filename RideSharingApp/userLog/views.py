@@ -6,6 +6,21 @@ from django.contrib.auth.models import User, auth
 from django.urls import reverse
 from django.contrib import messages
 
+def rideRequest(request):
+    return render(request, "userLog/ride_request.html")
+
+def owner(request):
+    return render(request, "userLog/owner_page.html")
+
+def driverInfo(request):
+    return render(request, "userLog/driver_info_form.html")
+
+def driverPage(request):
+    return render(request, "userLog/driver_page.html")
+
+def riderPage(request):
+    return render(request, "userLog/rider_page.html")
+
 def home(request):
     return render(request, "userLog/home.html")
 

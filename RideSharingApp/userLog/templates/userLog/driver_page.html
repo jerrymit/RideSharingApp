@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'userLog/styles.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Driver's page</h1>
+        <div>
+            <h2>Status</h2>
+            <label>First Name:</label><br>
+            <label>Last Name:</label><br>
+            <label>Car Type:</label><br>
+            <label>License Plate Number:</label><br>
+            <label>Number of Total Passengers:</label><br>
+            <form action = "{% url 'userLog:driverInfo' %}" methond = "POST">
+                <input type = "submit" value="Edit Status">
+            </form>
+        </div>
+        <h3> Other Options:
+            <a href="{% url 'userLog:rideRequest' %}">Request For A Ride</a>
+        </h3>
+        <a href="{% url 'userLog:home' %}">Back To Home Page</a>
+        
+    </div>
+    
+</body>
+</html>
