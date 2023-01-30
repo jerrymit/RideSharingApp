@@ -10,5 +10,12 @@
 </head>
 <body>
     <h1>Owner's page</h1>
+    <h2>Unique To Do: Ride Request Editing, Ride Status Viewing</h2>
+    <h2> Other Options:
+        <a href="{% url 'userLog:rideRequest' %}">Request For A Ride</a>
+        <a href="{% url 'userLog:driverInfo' %}">Register As A Driver</a>
+        Ride Selection
+    </h2>
+    <a href="{% url 'userLog:home' %}">Back To Home Page</a>
 </body>
 </html>
