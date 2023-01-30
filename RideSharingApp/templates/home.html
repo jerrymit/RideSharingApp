@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'userLog/styles.css' %}">
 
+<div>
+  
 {% block title %}Home{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
+
+  <h1>Welcome {{ user.username }}!</h1>
+  <p><a href="{% url 'DriverRegister' %}">Enter As A Driver</a></p>
+  <p><a href="{% url 'Ridesharer' %}">Enter As A Ridesharer</a></p>
+  <p><a href="{% url 'Owner' %}">Enter As A Owner</a></p>
+  
   <p><a href="{% url 'logout' %}">Log Out</a></p>
+
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">Log In</a>
 {% endif %}
 {% endblock %}
+
+
+</div>
+

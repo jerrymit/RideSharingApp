@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'userLog/styles.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Ride Sharer's page</h1>
+        <div>
+            <h2>Ride Status Viewing</h2>
+            <p>A ride owner or sharer should be able to view the
+                status of their non-complete rides. For open ride requests, this should show the current ride
+                details (from the original request + any updates due to sharers joining the ride). For confirmed
+                ride requests, the driver and vehicle details should also be shown.
+            </p>
+        </div><br>
+        <div>
+            <h2>Ride Searching</h2>
+            <p>A driver should be able to search for open ride requests. Only requests
+                which fit within the driver’s vehicle capacity and match the vehicle type and special request info
+                (if either of those were specified in the ride request) should be shown. A driver can claim and
+                start a ride service, thus confirming it. Once closed, the ride owner and each sharer should be
+                nofied by email that the ride has been confirmed (hence no further changes are allowed).
+                
+            </p>
+        </div><br>
+        <h2> Other Options:
+            <a href="{% url 'RideRequest' %}">Request For A Ride</a>
+            <a href="{% url 'DriverRegister' %}">Register As A Driver</a>
+        Ride Selection
+        </h2>
+        <a href="{% url 'home' %}">Back To Home Page</a>
+    </div>
+    
+</body>
+</html>
