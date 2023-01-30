@@ -11,6 +11,7 @@
 <body>
     <div>
         <h1>Welcome To Share Ride Service! </h1> 
+        <img src="../static/userLog/images/tesla.png" alt="tesla" width="500" height="333" >
         <form action = "{% url 'userLog:driverInfo' %}" methond = "POST">
             <input type = "submit" value="Enter As Driver">
         </form>
@@ -20,6 +21,7 @@
         <form action = "{% url 'userLog:owner' %}" methond = "POST">
             <input type = "submit" value="Enter As Owner">
         </form>
+        <br>
         <h2> Other Options:
             <a href="{% url 'userLog:rideRequest' %}">Request For A Ride</a>
         </h2>

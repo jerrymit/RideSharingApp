@@ -8,10 +8,11 @@ input[type=text],input[type="email"],input[type="password"], [type=datetime-loca
     box-sizing: border-box;
 }   
 input[type=submit]:hover {
-    background-color : #9dcdd9;
+    background-color : #58a0b4;
 }
 
 div {
+    width: 80%;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -19,8 +20,11 @@ div {
     border-style: solid;
     border-width: medium;
     border-radius: 2px;
-    background-color: #aed1da;
+    
     padding: 10px;
+    background: linear-gradient(-25deg, #ded9d7, #b5efab, #52caf1, #ecec13);
+    background-size: 400%, 400%;
+    animation: gradientBG 8s ease infinite;
 }
 input[type=submit] {
     width: 30%;
@@ -32,5 +36,19 @@ input[type=submit] {
     border-radius: 4px;
     cursor: pointer;
 }
-
+h1, h2, h3{
+    color:rgb(53, 5, 104);
+    font-family: Garamond, serif;
+}
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
