@@ -11,7 +11,7 @@
 <body>
     <div>
         <h1>Register</h1>
-        <form action = "{% url 'userLog:login' %}" methond = 'post'>
+        <form action = "{% url 'userLog:login' %}" method = "POST">
             {% csrf_token %}
             <label>First Name</label><br>
             <input type="text" name="firstName" placeholder="first name"><br>

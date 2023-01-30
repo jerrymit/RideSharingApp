@@ -25,7 +25,7 @@ def home(request):
     return render(request, "userLog/home.html")
 
 def login(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         username = request.Post['username']
         password = request.Post['password']
 

@@ -11,7 +11,7 @@
 <body>
     <div>
         <h1>Driver Infomation</h1>
-        <form action = "{% url 'userLog:driverPage' %}" methond = 'post'>
+        <form action = "{% url 'userLog:driverPage' %}" method = "POST">
             
             {% csrf_token %}
             <label>First Name</label><br>
@@ -28,7 +28,7 @@
             </select><br>
             <label>License Plate Number</label><br>
             <input type="text"  name="License Plate Number" placeholder="License Plate Number"><br>
-            <label>Number of Total Passengers(Max of 8)</label><br>
+            <label>Number of Total Passengers(Max of 8)</label>
             <input type="number" name="number of total passengers " min="1" max="8"><br>
             <input type = "submit" value = "Comfirm"> <br>
         </form>

@@ -13,7 +13,7 @@
 <body>
     <div>
         <h1>Share Ride Service Login Page</h1>
-        <form action = "{% url 'userLog:home' %}" methond = "POST">
+        <form action = "{% url 'userLog:home' %}" method = "POST">
             {% csrf_token %}
             <label>Username</label><br>
             <input type="text" name="username" placeholder="username"><br>
