@@ -28,7 +28,26 @@ def DriverRegister(request):
         form = DriverForm(request.POST or None)
         if form.is_valid():
             form.save()
-        return render(request, "registration/driver_page.html",{})
+        else:
+            return render(request, "registration/driver_info.html",{}) 
+        user = request.POST['user']
+        fname = request.POST['fname']
+        lname = request.POST['lname']
+        carType = request.POST['carType']
+        license = request.POST['license']
+        max_passenger = request.POST['max_passenger']
+        user = request.user
+        driver, created = DriverInfo.objects.update_or_create(
+            user = user, 
+            defaults= {'fname' : request.POST['fname'],
+                'lname' : request.POST['lname'],
+                'carType' : request.POST['carType'],
+                'license' : request.POST['license'],
+                'max_passenger' : request.POST['max_passenger'],
+            }
+        )
+        return render(request, "registration/driver_page.html",{'carType':carType, 'fname':fname, 
+                    'lname':lname, 'license':license, 'max_passenger':max_passenger})
     else:
         return render(request, "registration/driver_info.html",{})
 

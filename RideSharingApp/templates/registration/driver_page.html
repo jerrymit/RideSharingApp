@@ -13,11 +13,11 @@
         <h1>Driver's page</h1>
         <div>
             <h2>Status</h2>
-            <label>First Name:</label><br>
-            <label>Last Name:</label><br>
-            <label>Car Type:</label><br>
-            <label>License Plate Number:</label><br>
-            <label>Number of Total Passengers:</label><br>
+            <label>First Name: {{fname}}</label><br>
+            <label>Last Name: {{lname}}</label><br>
+            <label>Car Type: {{carType}}</label><br>
+            <label>License Plate Number: {{license}}</label><br>
+            <label>Number of Total Passengers: {{max_passenger}}</label><br>
             <form action = "{% url 'DriverRegister' %}" method = "POST">
                 {% csrf_token %}
                 <input type = "submit" value="Edit Status">
