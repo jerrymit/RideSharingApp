@@ -25,30 +25,28 @@ class SignUpView(generic.CreateView):
 
 def DriverRegister(request):
     if request.method == "POST":
-        form = DriverForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-        else:
-            return render(request, "registration/driver_info.html",{}) 
-        user = request.POST['user']
         fname = request.POST['fname']
         lname = request.POST['lname']
         carType = request.POST['carType']
         license = request.POST['license']
         max_passenger = request.POST['max_passenger']
         user = request.user
-        driver, created = DriverInfo.objects.update_or_create(
-            user = user, 
+        form = DriverForm(request.POST or None)
+        if form.is_valid():
+            #form.save()
             defaults= {'fname' : request.POST['fname'],
                 'lname' : request.POST['lname'],
                 'carType' : request.POST['carType'],
                 'license' : request.POST['license'],
                 'max_passenger' : request.POST['max_passenger'],
             }
-        )
+            DriverInfo.objects.update_or_create(user = user, defaults=defaults)
+        else:
+            return render(request, "registration/driver_info.html",{})
         return render(request, "registration/driver_page.html",{'carType':carType, 'fname':fname, 
                     'lname':lname, 'license':license, 'max_passenger':max_passenger})
     else:
+        form = DriverForm()
         return render(request, "registration/driver_info.html",{})
 
 def DriverPage(request):

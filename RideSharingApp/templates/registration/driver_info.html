@@ -12,7 +12,6 @@
     <div>
         <h1>Driver Infomation</h1>
         <form action = "{% url 'DriverRegister' %}" method = "POST">
-            
             {% csrf_token %}
             <label>First Name</label><br>
             <input type="text" name="fname" placeholder="first name"><br>
