@@ -6,11 +6,11 @@
 </head>
 {% block content %}
 <div>
-  <h2>Log In</h2>
+  <h2>Share Ride Service Login</h2>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Log In</button>
+  <input type="submit" value = "Login">
 </form>
 <p>Doesn't have an account? <a href="{% url 'signup' %}">register</a> </p>
 </div>

@@ -15,9 +15,9 @@
         <h1>Share Ride Service Login Page</h1>
         <form action = "{% url 'userLog:home' %}" method = "POST">
             {% csrf_token %}
-            <label>Username</label><br>
+            <label>Username</label>
             <input type="text" name="username" placeholder="username"><br>
-            <label >Password</label><br>
+            <label >Password</label>
             <input type="password"name="password"placeholder="password"><br>
             <input type = "submit" value="Login">
         </form>
