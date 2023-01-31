@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'userLog/styles.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Search Result</h1>
+        <div>
+            <h2>Status</h2>
+            <form action = "{% url 'DriverPage' %}" method = "POST">
+                {% csrf_token %}
+                {% for object in objects %}
+                <h3>
+                    <li>Destination: {{ object.address }}, Arrival Time: {{ object.dateTime }} 
+                        <input type = "submit" value="Claim This Ride">
+                    </li>
+                </h3>
+                    
+                {% endfor %}
+            </form>
+        </div><br>
+        <p><a href="{% url 'home' %}">Back To Home Page</a> </p>
+    </div>
+</body>
+</html>

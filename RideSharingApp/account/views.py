@@ -15,27 +15,34 @@ from .models import DriverInfo, RideRequestInfo
 from .forms import DriverForm, RideRequestForm
 
 
+def DriverRideSearch(request):
+    if request.method == "POST":
+        carType = request.POST['carType']
+        max_cap = request.POST['num_passenger']
+        specialR = request.POST['specialRequest']
+        objects = RideRequestInfo.objects.filter(status = 'OPEN').filter(carType = carType).filter(num_passenger__lte = max_cap)
+        #if specialR is not None:
+         #   objects = objects.filter(specialRequest = specialR)
+        if carType or max_cap is not None:
+            return render(request, "registration/driver_search.html", {'objects':objects})
+        return render(request, "registration/driver_page.html")
+    else:
+        return render(request, "registration/driver_page.html")
+
 def RideRequest(request):
     if request.method == "POST":
         form = RideRequestForm(request.POST or None)
         if form.is_valid():
-            defaults= {
-                'address' : request.POST['address'],
-                'dateTime' : request.POST['dateTime'],
-                'carType' : request.POST['carType'],
-                'num_passenger' : request.POST['num_passenger'],
-                'isShared' : request.POST['isShared'],
-            }
-            share=request.POST['isShared'], 
-            share=(share=="True")
+            share=(request.POST['isShared']=="True")
             RideRequest = RideRequestInfo.objects.create(
                 address = request.POST['address'], 
                 dateTime = request.POST['dateTime'],
                 carType = request.POST['carType'],
                 num_passenger = request.POST['num_passenger'],
-                isShared=share,  
+                specialRequest = request.POST['specialRequest'],
+                isShared=share,
+                user = str(request.user.id),
             )
-            
             return render(request, "registration/owner_page.html")
         else:
             return render(request, "registration/ride_request.html")
