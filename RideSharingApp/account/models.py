@@ -10,14 +10,38 @@ CAR_CHOICES = (
     ('Minivan','Minivan'),
 )
 
+CarRequest_CHOICES = (
+    ('SUV','SUV'),
+    ('Sedan', 'Sedan'),
+    ('Crossover','Crossover'),
+    ('Minivan','Minivan'),
+    ('Any','Any'),
+)
+
+CAR_STATUS = { 
+    ('OPEN','OPEN'),
+    ('COMFIRM', 'COMFIRM'),
+    ('COMPLETE','COMPLETE'),
+}
 # Create your models here.
 class DriverInfo(models.Model):
     fname = models.CharField(max_length = 200)
     lname = models.CharField(max_length = 200)
     carType = models.CharField(max_length=20, choices=CAR_CHOICES, default='SUV')
-    max_passenger = models.CharField(max_length = 1)
+    max_passenger = models.PositiveBigIntegerField(default = 1)
     license = models.CharField(max_length = 200)
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     
     def __str__(self):
         return self.lname
+
+class RideRequestInfo(models.Model):
+    address = models.CharField(max_length = 200)
+    dateTime = models.DateTimeField(auto_now_add=False, auto_now=False)
+    num_passenger = models.PositiveBigIntegerField(default = 1)
+    carType = models.CharField(max_length=20, choices=CarRequest_CHOICES, default='ANY')
+    isShared = models.BooleanField()
+    status = models.CharField(max_length=20, choices=CAR_STATUS, default='OPEN')
+
+    def __str__(self):
+        return self.address

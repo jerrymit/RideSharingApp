@@ -11,8 +11,37 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User, auth 
 from django.urls import reverse
 from django.contrib import messages
-from .models import DriverInfo
-from .forms import DriverForm
+from .models import DriverInfo, RideRequestInfo
+from .forms import DriverForm, RideRequestForm
+
+
+def RideRequest(request):
+    if request.method == "POST":
+        form = RideRequestForm(request.POST or None)
+        if form.is_valid():
+            defaults= {
+                'address' : request.POST['address'],
+                'dateTime' : request.POST['dateTime'],
+                'carType' : request.POST['carType'],
+                'num_passenger' : request.POST['num_passenger'],
+                'isShared' : request.POST['isShared'],
+            }
+            share=request.POST['isShared'], 
+            share=(share=="True")
+            RideRequest = RideRequestInfo.objects.create(
+                address = request.POST['address'], 
+                dateTime = request.POST['dateTime'],
+                carType = request.POST['carType'],
+                num_passenger = request.POST['num_passenger'],
+                isShared=share,  
+            )
+            
+            return render(request, "registration/owner_page.html")
+        else:
+            return render(request, "registration/ride_request.html")
+    else:    
+        return render(request, "registration/ride_request.html")    
+
 
 def DriverDB(request):
     all_driver = DriverInfo.objects.all
@@ -26,7 +55,6 @@ class SignUpView(generic.CreateView):
 def DriverRegister(request):
     if request.method == "POST":
         form = DriverForm(request.POST or None)
-        
         if form.is_valid():
             #form.save()
             fname = form.cleaned_data['fname']
@@ -52,9 +80,6 @@ def DriverRegister(request):
 
 def DriverPage(request):
     return render(request, "registration/driver_page.html")
-
-def RideRequest(request):
-    return render(request, "registration/ride_request.html")
 
 def Owner(request):
     return render(request, "registration/owner_page.html")
