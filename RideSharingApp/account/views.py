@@ -11,15 +11,26 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User, auth 
 from django.urls import reverse
 from django.contrib import messages
+from .models import DriverInfo
+from .forms import DriverForm
 
-
+def DriverDB(request):
+    all_driver = DriverInfo.objects.all
+    return render(request,"registration/DriverDB.html", {'all' : all_driver})
+    
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
 
 def DriverRegister(request):
-    return render(request, "registration/driver_info.html")
+    if request.method == "POST":
+        form = DriverForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+        return render(request, "registration/driver_page.html",{})
+    else:
+        return render(request, "registration/driver_info.html",{})
 
 def DriverPage(request):
     return render(request, "registration/driver_page.html")

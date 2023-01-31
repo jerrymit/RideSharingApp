@@ -7,7 +7,7 @@
 
   <h1>Welcome {{ user.username }}!</h1>
   <img src="../static/userLog/images/tesla.png" alt="tesla" width="500" height="333" >
-  <form action = "{% url 'DriverRegister' %}" method="post">
+  <form action = "{% url 'DriverRegister' %}" >
     {% csrf_token %}
     <input type = "submit" value="Driver">
   </form>
