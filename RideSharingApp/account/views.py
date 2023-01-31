@@ -25,15 +25,16 @@ class SignUpView(generic.CreateView):
 
 def DriverRegister(request):
     if request.method == "POST":
-        fname = request.POST['fname']
-        lname = request.POST['lname']
-        carType = request.POST['carType']
-        license = request.POST['license']
-        max_passenger = request.POST['max_passenger']
-        user = request.user
         form = DriverForm(request.POST or None)
+        
         if form.is_valid():
             #form.save()
+            fname = form.cleaned_data['fname']
+            lname = form.cleaned_data['lname']
+            carType = form.cleaned_data['carType']
+            license = form.cleaned_data['license']
+            max_passenger = form.cleaned_data['max_passenger']
+            user = request.user
             defaults= {'fname' : request.POST['fname'],
                 'lname' : request.POST['lname'],
                 'carType' : request.POST['carType'],
