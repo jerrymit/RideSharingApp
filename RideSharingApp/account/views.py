@@ -14,9 +14,14 @@ from django.contrib import messages
 from .models import DriverInfo, RideRequestInfo
 from .forms import DriverForm, RideRequestForm
 
+def ViewRideDetail(request, id):
+    object = RideRequestInfo.objects.get(id = id)
+    return render(request, "registration/driver_claim_view.html", {'object': object})
+
 def Comfirm(request, id):
     object = RideRequestInfo.objects.get(id = id)
     object.status = 'COMFIRM'
+    object.driver = request.user.username
     object.save()
     return redirect('DriverPage')
 
@@ -46,6 +51,7 @@ def RideRequest(request):
                 num_passenger = request.POST['num_passenger'],
                 specialRequest = request.POST['specialRequest'],
                 isShared=share,
+                owner = request.user.username,
                 user = str(request.user.id),
             )
             return render(request, "registration/owner_page.html")
@@ -91,11 +97,6 @@ def DriverRegister(request):
         form = DriverForm(request.POST or None)
         if form.is_valid():
             #form.save()
-            fname = form.cleaned_data['fname']
-            lname = form.cleaned_data['lname']
-            carType = form.cleaned_data['carType']
-            license = form.cleaned_data['license']
-            max_passenger = form.cleaned_data['max_passenger']
             user = request.user
             defaults= {'fname' : request.POST['fname'],
                 'lname' : request.POST['lname'],
@@ -120,9 +121,12 @@ def StatusView(request):
 
 def DriverPage(request):
     user = request.user
-    driver = DriverInfo.objects.filter(user = user)[0]
-    print(driver)
-    return render(request, "registration/driver_page.html",{'driver':driver})
+    if DriverInfo.objects.filter(user=user).exists():
+        driver = DriverInfo.objects.filter(user = user)[0]
+        requests = RideRequestInfo.objects.filter(driver = request.user.username)
+        return render(request, "registration/driver_page.html",{'driver':driver,'requests':requests})
+    else:
+        return redirect('DriverRegister')
 
 def Owner(request):
     return render(request, "registration/owner_page.html")

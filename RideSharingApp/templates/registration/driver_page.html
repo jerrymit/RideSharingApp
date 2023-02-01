@@ -24,6 +24,19 @@
             </form>
         </div><br>
         <div>
+            <h2>Ride Status Viewing</h2>
+            {% for request in requests %}
+                <h3>
+                    <strong><hr>
+                        <p>Request ID: {{ request.id }}</p>
+                        <p>Desitnation: {{ request.address }}</p>
+                        <p>Owner Username: {{ request.owner }}</p>
+                        <a href="{% url 'ViewRideDetail' request.id %}">View Ride Detail</a>
+                    </strong>
+                </h3>
+            {% endfor %}
+        </div><br>
+        <div>
             <h2>Search For A Ride To Claim</h2>
             <form action = "{% url 'DriverRideSearch' %}" method = "POST">                
                 {% csrf_token %}  

@@ -17,10 +17,11 @@
                 {% csrf_token %}
                 {% for object in objects %}
                 <h3>
-                    <li>Destination: {{ object.address }}, Arrival Time: {{ object.dateTime }} 
-                        <a href="{% url 'Comfirm' object.id %}">Submit</a>
-                        
-                    </li>
+                    <hr>
+                        <p>Request ID: {{ object.id }}</p>
+                        <p>Destination: {{ object.address }}</p>
+                        <p>Arrival Time: {{ object.dateTime }}</p> 
+                        <a href="{% url 'Comfirm' object.id %}">Claim This Ride</a>
                 </h3>
                 {% endfor %}
         </div><br>

@@ -1,0 +1,16 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'userLog/styles.css' %}">
+</head>
+
+<div>
+    <h1> Ride Status</h1>
+        <h2>
+            Destination: {{object.address}}</strong> <br/>
+            Arrival Time: {{object.dateTime}} <br/>
+            Vehicle Type: {{object.carType}} <br/>
+            Owner Username: {{object.owner}} <br/>
+        </h2>      
+        <a href="{% url 'RequestEdit' %}">Edit Ride</a>
+    <p><a href="{% url 'home' %}">Back To Home Page</a> </p>
+</div>
