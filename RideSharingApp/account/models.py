@@ -31,7 +31,7 @@ class DriverInfo(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     
     def __str__(self):
-        return self.lname
+        return self.carType + "_" + self.lname
 
 class RideRequestInfo(models.Model):
     address = models.CharField(max_length = 200)

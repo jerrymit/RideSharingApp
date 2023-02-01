@@ -14,7 +14,6 @@ from django.contrib import messages
 from .models import DriverInfo, RideRequestInfo
 from .forms import DriverForm, RideRequestForm
 
-
 def DriverRideSearch(request):
     if request.method == "POST":
         carType = request.POST['carType']
@@ -54,12 +53,6 @@ def RequestEdit(request):
         form = RideRequestForm(request.POST or None)
         if form.is_valid():
             user = request.user
-            address = form.cleaned_data['address']
-            dateTime = form.cleaned_data['dateTime']
-            carType = form.cleaned_data['carType']
-            num_passenger = form.cleaned_data['num_passenger']
-            isShared = form.cleaned_data['isShared']
-            specialRequest = form.cleaned_data['specialRequest']
             defaults= {
                 'address' : request.POST['address'],
                 'dateTime' : request.POST['dateTime'],
@@ -70,9 +63,8 @@ def RequestEdit(request):
             }
             share=request.POST['isShared'], 
             share=(share=="True")
-            RideRequestInfo.objects.update_or_create(user = user, defaults=defaults)
-            return render(request, "registration/owner_page.html", {'address':address,'dateTime':dateTime,'carType':carType,
-            'num_passenger':num_passenger,'isShared':isShared,'specialRequest':specialRequest})
+            ownerR = RideRequestInfo.objects.update_or_create(user = user, defaults=defaults)[0]
+            return render(request, "registration/owner_page.html", {'ownerR':ownerR})
         else:
             return render(request, "registration/request_edit.html")
     else:    
@@ -105,9 +97,11 @@ def DriverRegister(request):
                 'license' : request.POST['license'],
                 'max_passenger' : request.POST['max_passenger'],
             }
-            DriverInfo.objects.update_or_create(user = user, defaults=defaults)
-            driver = DriverInfo.objects.filter(user = user)
-            return render(request, "registration/driver_page.html",{'fname':fname, 'driver':driver})
+            
+            driver = DriverInfo.objects.update_or_create(user = user, defaults=defaults)[0]
+            
+            #driver = DriverInfo.objects.filter(user = user)
+            return render(request, "registration/driver_page.html",{'driver':driver})
         else:
             return render(request, "registration/driver_info.html",{})
     else:
