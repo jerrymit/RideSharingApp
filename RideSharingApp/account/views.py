@@ -14,6 +14,12 @@ from django.contrib import messages
 from .models import DriverInfo, RideRequestInfo
 from .forms import DriverForm, RideRequestForm
 
+def Comfirm(request, id):
+    object = RideRequestInfo.objects.get(id = id)
+    object.status = 'COMFIRM'
+    object.save()
+    return redirect('DriverPage')
+
 def DriverRideSearch(request):
     if request.method == "POST":
         carType = request.POST['carType']
@@ -113,7 +119,10 @@ def StatusView(request):
     return render(request,"registration/StatusView_Owner.html", {'all' : all_status})
 
 def DriverPage(request):
-    return render(request, "registration/driver_page.html")
+    user = request.user
+    driver = DriverInfo.objects.filter(user = user)[0]
+    print(driver)
+    return render(request, "registration/driver_page.html",{'driver':driver})
 
 def Owner(request):
     return render(request, "registration/owner_page.html")

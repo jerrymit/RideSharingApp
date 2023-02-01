@@ -15,4 +15,5 @@ urlpatterns = [
     path('Driverdb/', views.DriverDB, name = 'DriverDB'),
     path('Request_edit/', views.RequestEdit, name = 'RequestEdit'),
     path('StatusView_Owner/', views.StatusView, name = 'StatusView'),
+    path('<int:id>/Comfirm/', views.Comfirm, name = 'Comfirm'),
 ]
