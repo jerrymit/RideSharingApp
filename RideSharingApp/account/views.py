@@ -14,6 +14,7 @@ from django.contrib import messages
 from .models import DriverInfo, RideRequestInfo
 from .forms import DriverForm, RideRequestForm
 
+
 def ViewRideDetail(request, id):
     object = RideRequestInfo.objects.get(id = id)
     return render(request, "registration/driver_claim_view.html", {'object': object})
@@ -22,6 +23,10 @@ def Comfirm(request, id):
     object = RideRequestInfo.objects.get(id = id)
     object.status = 'COMFIRM'
     object.driver = request.user.username
+    user_points = DriverInfo.objects.get(user = request.user)
+    object.driver_fname = user_points.fname
+    object.driver_lname = user_points.lname
+    object.license = user_points.license
     object.save()
     return redirect('DriverPage')
 

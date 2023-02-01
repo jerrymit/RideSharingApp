@@ -43,6 +43,9 @@ class RideRequestInfo(models.Model):
     specialRequest = models.CharField(max_length = 200, null=True, default='N/A')
     driver = models.CharField(max_length = 200, null=True, default=None)
     owner = models.CharField(max_length = 200, null=True, default=None)
+    driver_fname = models.CharField(max_length = 200, null=True, default=None)
+    driver_lname = models.CharField(max_length = 200, null=True, default=None)
+    license = models.CharField(max_length = 200, null=True, default=None)
     user = models.CharField(max_length = 200)
 
 

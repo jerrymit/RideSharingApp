@@ -14,8 +14,14 @@
             isShared: {{item.isShared}}<br/>
             Status: {{item.status}}<br/>
             Special Request: {{item.specialRequest}}<br/>
-        <a href="{% url 'RequestEdit' %}">Edit Ride</a>
-    <hr>
-    {%endfor%}
+            {% if item.driver_fname %}
+            <hr>
+                Driver: {{item.driver_fname}} {{item.driver_lname}}<br/>
+                Driver license: {{item.license}}<br/>
+            {% else %}
+                <a href="{% url 'RequestEdit' %}">Edit Ride</a>
+            {% endif %}
+        <hr>
+        {%endfor%}
     <p><a href="{% url 'home' %}">Back To Home Page</a> </p>
 </div>
