@@ -12,5 +12,7 @@ urlpatterns = [
     path('rideRequest/', views.RideRequest, name='RideRequest'),
     path('shareride/', views.Ridesharer, name='Ridesharer'),
     path('owner/', views.Owner, name='Owner'),
-    path('Driverdb/', views.DriverDB, name = 'DriverDB')
+    path('Driverdb/', views.DriverDB, name = 'DriverDB'),
+    path('Request_edit/', views.RequestEdit, name = 'RequestEdit'),
+    path('StatusView_Owner/', views.StatusView, name = 'StatusView'),
 ]

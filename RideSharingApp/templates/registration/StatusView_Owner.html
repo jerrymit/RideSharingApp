@@ -1,0 +1,21 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'userLog/styles.css' %}">
+</head>
+
+<div>
+    <h1> Ride Status</h1>
+        {% for item in all %}
+        Id: {{item.id}} <br/>
+        <strong> Ride Destination: {{item.address}}<br/>
+            Date: {{item.dateTime}}</strong> <br/>
+            Passenger: {{item.num_passenger}} <br/>
+            carType: {{item.carType}} <br/>
+            isShared: {{item.isShared}}<br/>
+            Status: {{item.status}}<br/>
+            Special Request: {{item.specialRequest}}<br/>
+        <a href="{% url 'RequestEdit' %}">Edit Ride</a>
+    <hr>
+    <p><a href="{% url 'home' %}">Back To Home Page</a> </p>
+    {%endfor%}
+</div>

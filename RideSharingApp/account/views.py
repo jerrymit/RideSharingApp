@@ -21,11 +21,11 @@ def DriverRideSearch(request):
         max_cap = request.POST['num_passenger']
         specialR = request.POST['specialRequest']
         objects = RideRequestInfo.objects.filter(status = 'OPEN').filter(carType = carType).filter(num_passenger__lte = max_cap)
-        #if specialR is not None:
-         #   objects = objects.filter(specialRequest = specialR)
-        if carType or max_cap is not None:
-            return render(request, "registration/driver_search.html", {'objects':objects})
-        return render(request, "registration/driver_page.html")
+        if specialR is not None:
+           objects = objects.filter(specialRequest = specialR)
+        if max_cap is None:
+            return render(request, "registration/driver_page.html")
+        return render(request, "registration/driver_search.html", {'objects':objects})
     else:
         return render(request, "registration/driver_page.html")
 
@@ -48,6 +48,35 @@ def RideRequest(request):
             return render(request, "registration/ride_request.html")
     else:    
         return render(request, "registration/ride_request.html")    
+
+def RequestEdit(request):
+    if request.method == "POST":
+        form = RideRequestForm(request.POST or None)
+        if form.is_valid():
+            user = request.user
+            address = form.cleaned_data['address']
+            dateTime = form.cleaned_data['dateTime']
+            carType = form.cleaned_data['carType']
+            num_passenger = form.cleaned_data['num_passenger']
+            isShared = form.cleaned_data['isShared']
+            specialRequest = form.cleaned_data['specialRequest']
+            defaults= {
+                'address' : request.POST['address'],
+                'dateTime' : request.POST['dateTime'],
+                'carType' : request.POST['carType'],
+                'num_passenger' : request.POST['num_passenger'],
+                'isShared' : request.POST['isShared'],
+                'specialRequest' : form.cleaned_data['specialRequest']
+            }
+            share=request.POST['isShared'], 
+            share=(share=="True")
+            RideRequestInfo.objects.update_or_create(user = user, defaults=defaults)
+            return render(request, "registration/owner_page.html", {'address':address,'dateTime':dateTime,'carType':carType,
+            'num_passenger':num_passenger,'isShared':isShared,'specialRequest':specialRequest})
+        else:
+            return render(request, "registration/request_edit.html")
+    else:    
+        return render(request, "registration/request_edit.html")
 
 
 def DriverDB(request):
@@ -77,13 +106,17 @@ def DriverRegister(request):
                 'max_passenger' : request.POST['max_passenger'],
             }
             DriverInfo.objects.update_or_create(user = user, defaults=defaults)
+            driver = DriverInfo.objects.filter(user = user)
+            return render(request, "registration/driver_page.html",{'fname':fname, 'driver':driver})
         else:
             return render(request, "registration/driver_info.html",{})
-        return render(request, "registration/driver_page.html",{'carType':carType, 'fname':fname, 
-                    'lname':lname, 'license':license, 'max_passenger':max_passenger})
     else:
         form = DriverForm()
         return render(request, "registration/driver_info.html",{})
+
+def StatusView(request):
+    all_status = RideRequestInfo.objects.all
+    return render(request,"registration/StatusView_Owner.html", {'all' : all_status})
 
 def DriverPage(request):
     return render(request, "registration/driver_page.html")

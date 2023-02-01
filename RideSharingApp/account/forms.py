@@ -9,4 +9,4 @@ class DriverForm(forms.ModelForm):
 class RideRequestForm(forms.ModelForm):
     class Meta:
         model = RideRequestInfo
-        fields = ['address','dateTime','carType','num_passenger','isShared']
+        fields = ['address','dateTime','carType','num_passenger','isShared','specialRequest']

@@ -40,7 +40,7 @@ class RideRequestInfo(models.Model):
     carType = models.CharField(max_length=20, choices=CarRequest_CHOICES, default='ANY')
     isShared = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=CAR_STATUS, default='OPEN')
-    specialRequest = models.CharField(max_length = 200, default=None)
+    specialRequest = models.CharField(max_length = 200, null=True, default=None)
     user = models.CharField(max_length = 200)
 
     def __str__(self):

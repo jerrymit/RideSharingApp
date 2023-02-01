@@ -14,20 +14,20 @@
         <div>
             <h2>Status</h2>
             <label>First Name: {{fname}}</label><br>
-            <label>Last Name: {{lname}}</label><br>
-            <label>Car Type: {{carType}}</label><br>
-            <label>License Plate Number: {{license}}</label><br>
-            <label>Number of Total Passengers: {{max_passenger}}</label><br>
+            <label>Last Name: {{driver.lname}}</label><br>
+            <label>Car Type: {{driver.carType}}</label><br>
+            <label>License Plate Number: {{driver.license}}</label><br>
+            <label>Vehicle Capacity: {{driver.max_passenger}}</label><br>
             <form action = "{% url 'DriverRegister' %}" method = "POST">
                 {% csrf_token %}
                 <input type = "submit" value="Edit Status">
             </form>
         </div><br>
         <div>
-            <h2>Search For A Ride</h2>
+            <h2>Search For A Ride To Claim</h2>
             <form action = "{% url 'DriverRideSearch' %}" method = "POST">                
                 {% csrf_token %}  
-                <label for="cars">Car Type (Optional: Click Any If Not Specified)</label><br>
+                <label for="cars">Your Car Type (Same As Above)</label><br>
                     <select name="carType" style= "height: 40px; width: 30%; padding: 12px 20px;
                         margin: 8px 0;" id="cars">
                         <option value="SUV">SUV</option>
@@ -36,11 +36,11 @@
                         <option value="Minivan">Minivan</option>
                         <option value="ANY">Any</option>
                     </select><br>
-                <label>Vehicle Capacity(Max of 8)</label><br>
+                <label>Your Vehicle Capacity(Max of 8)</label><br>
                 <input type="number" style= "height: 40px; width: 30%" name="num_passenger" min="1" max="8"><br>
                 
                 <label>Special Request</label><br>
-                <input type="text" name="specialRequest" placeholder="optional"><br>
+                <input type="text" name="specialRequest" placeholder="N/A if not applicable"><br>
                 
                 <input type = "submit" value="Search">
             </form>
