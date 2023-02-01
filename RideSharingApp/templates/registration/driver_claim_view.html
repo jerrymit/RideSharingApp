@@ -11,7 +11,7 @@
             Vehicle Type: {{object.carType}} <br/>
             Owner Username: {{object.owner}} <br/>
         </h2>      
-        <a href="{% url 'RequestEdit' %}">Edit Ride</a>
+        <a href="{% url 'Complete' object.id %}">Mark Ride Complete</a>
     <p><a href="{% url 'DriverPage' %}">Back To Driver Page</a> </p>
     <p><a href="{% url 'home' %}">Back To Home Page</a> </p>
 

@@ -14,6 +14,11 @@ from django.contrib import messages
 from .models import DriverInfo, RideRequestInfo
 from .forms import DriverForm, RideRequestForm
 
+def Complete(request, id):
+    object = RideRequestInfo.objects.get(id = id)
+    object.status = 'COMPLETE'
+    object.save()
+    return redirect('DriverPage')
 
 def ViewRideDetail(request, id):
     object = RideRequestInfo.objects.get(id = id)
@@ -128,7 +133,7 @@ def DriverPage(request):
     user = request.user
     if DriverInfo.objects.filter(user=user).exists():
         driver = DriverInfo.objects.filter(user = user)[0]
-        requests = RideRequestInfo.objects.filter(driver = request.user.username)
+        requests = RideRequestInfo.objects.filter(driver = request.user.username).filter(status = 'COMFIRM')
         return render(request, "registration/driver_page.html",{'driver':driver,'requests':requests})
     else:
         return redirect('DriverRegister')
