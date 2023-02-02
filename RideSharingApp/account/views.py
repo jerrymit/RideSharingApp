@@ -14,6 +14,12 @@ from .forms import DriverForm, RideRequestForm, CustomUserCreationForm
 from django.core.mail import send_mail
 
 
+def Join(request, id):
+    object = RideRequestInfo.objects.get(id = id)
+    object.num_passenger = object.num_passenger * 2
+    object.save()
+    return redirect('Ridesharer')
+
 def Complete(request, id):
     object = RideRequestInfo.objects.get(id = id)
     object.status = 'COMPLETE'
@@ -51,12 +57,11 @@ def SharerRideSearch(request):
         lateTime = request.POST['dateTimeLate']
         numPassenger = request.POST['num_passenger']
         objects = RideRequestInfo.objects.filter(isShared = True, status = 'OPEN')
-
-        # objects = objects.filter(address = destination, 
-        #                          dateTime__gte = earlyTime, 
-        #                          dateTime__lte = lateTime,
-        #                          spotAvaliableLeft__gte = numPassenger,
-        #                         )
+        objects = objects.filter(address = destination, 
+                                 dateTime__gte = earlyTime, 
+                                 dateTime__lte = lateTime,
+                                 num_passenger = numPassenger,
+                                )
         return render(request, "registration/sharer_search.html", {'objects':objects})
     else:
         return render(request, "registration/rideshare_page.html")    

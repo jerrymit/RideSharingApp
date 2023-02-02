@@ -17,6 +17,7 @@ urlpatterns = [
     path('<int:id>/Request_edit/', views.RequestEdit, name = 'RequestEdit'),
     path('StatusView_Owner/', views.StatusView, name = 'StatusView'),
     path('<int:id>/Comfirm/', views.Comfirm, name = 'Comfirm'),
+    path('<int:id>/Join/', views.Join, name = 'Join'),
     path('<int:id>/Complete/', views.Complete, name = 'Complete'),
     path('<int:id>/ViewRideDetail/', views.ViewRideDetail, name = 'ViewRideDetail'),
 ]
