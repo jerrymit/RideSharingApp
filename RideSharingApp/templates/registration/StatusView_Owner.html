@@ -19,7 +19,7 @@
                 Driver: {{item.driver_fname}} {{item.driver_lname}}<br/>
                 Driver license: {{item.license}}<br/>
             {% else %}
-                <a href="{% url 'RequestEdit' %}">Edit Ride</a>
+                <a href="{% url 'RequestEdit' item.id %}">Edit Ride</a>
             {% endif %}
         <hr>
         {%endfor%}

@@ -11,7 +11,7 @@
 <body>
     <div>
         <h1>Ride Editing</h1>
-        <form action = "{% url 'RequestEdit' %}" method = "POST">
+        <form action = "{% url 'RequestEdit' id %}" method = "POST">
             {% csrf_token %}
                 <label>Destination Address</label><br>
                 <input type="text" name="address" placeholder="destination"><br>
