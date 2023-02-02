@@ -6,13 +6,13 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import render, redirect
 
-# Create your views here.
-from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User, auth 
 from django.urls import reverse
 from django.contrib import messages
 from .models import DriverInfo, RideRequestInfo
-from .forms import DriverForm, RideRequestForm
+from .forms import DriverForm, RideRequestForm, CustomUserCreationForm
+from django.core.mail import send_mail
+
 
 def Complete(request, id):
     object = RideRequestInfo.objects.get(id = id)
@@ -33,6 +33,14 @@ def Comfirm(request, id):
     object.driver_lname = user_points.lname
     object.license = user_points.license
     object.save()
+    print(object.owner.email)
+    send_mail(
+        'Ride Service Status Update',
+        'Your requested ride has been comfirmed',
+        'bigjjrideservice@outlook.com',
+        [object.owner.email],
+        fail_silently=False,
+    )
     return redirect('DriverPage')
 
 def DriverRideSearch(request):
@@ -61,7 +69,7 @@ def RideRequest(request):
                 num_passenger = request.POST['num_passenger'],
                 specialRequest = request.POST['specialRequest'],
                 isShared=share,
-                owner = request.user.username,
+                owner = request.user,
                 user = str(request.user.id),
             )
             return render(request, "registration/owner_page.html")
@@ -70,7 +78,7 @@ def RideRequest(request):
     else:    
         return render(request, "registration/ride_request.html")    
 
-def RequestEdit(request,id):
+def RequestEdit(request):
     if request.method == "POST":
         form = RideRequestForm(request.POST or None)
         if form.is_valid():
@@ -83,14 +91,14 @@ def RequestEdit(request,id):
                 'isShared' : request.POST['isShared'],
                 'specialRequest' : form.cleaned_data['specialRequest']
             }
-            ownerR = RideRequestInfo.objects.update_or_create(id = id, defaults=defaults)[0]
-            #RideRequestInfo.objects.update_or_create(user = user, defaults=defaults)
-            #return render(request, "registration/owner_page.html", {'ownerR':ownerR})
-            return render(request, "registration/owner_page.html",{'ownerR':ownerR})
+            share=request.POST['isShared'], 
+            share=(share=="True")
+            ownerR = RideRequestInfo.objects.update_or_create(user = user, defaults=defaults)[0]
+            return render(request, "registration/owner_page.html", {'ownerR':ownerR})
         else:
-            return render(request, "registration/request_edit.html", {'id':id})
+            return render(request, "registration/request_edit.html")
     else:    
-        return render(request, "registration/request_edit.html",{'id':id})
+        return render(request, "registration/request_edit.html")
 
 
 def DriverDB(request):
@@ -98,7 +106,7 @@ def DriverDB(request):
     return render(request,"registration/DriverDB.html", {'all' : all_driver})
     
 class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
 

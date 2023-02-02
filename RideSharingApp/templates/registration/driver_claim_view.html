@@ -9,7 +9,7 @@
             Destination: {{object.address}}</strong> <br/>
             Arrival Time: {{object.dateTime}} <br/>
             Vehicle Type: {{object.carType}} <br/>
-            Owner Username: {{object.owner}} <br/>
+            Owner Username: {{object.owner.username}} <br/>
         </h2>      
         <a href="{% url 'Complete' object.id %}">Mark Ride Complete</a>
     <p><a href="{% url 'DriverPage' %}">Back To Driver Page</a> </p>
