@@ -20,14 +20,27 @@
             </p>
         </div><br>
         <div>
-            <h2>Ride Searching</h2>
-            <p>A driver should be able to search for open ride requests. Only requests
-                which fit within the driver’s vehicle capacity and match the vehicle type and special request info
-                (if either of those were specified in the ride request) should be shown. A driver can claim and
-                start a ride service, thus confirming it. Once closed, the ride owner and each sharer should be
-                nofied by email that the ride has been confirmed (hence no further changes are allowed).
+            <h2>Search For A Ride To Claim</h2>
+            <h3>
+                Please fill out the form with valid input
+            </h3>
+            <form action = "{% url 'SharerRideSearch' %}" method = "POST">                
+                {% csrf_token %}  
                 
-            </p>
+                <label>Destination</label><br>
+                <input type="text" name="address" placeholder="destination"><br>
+                
+                <label>Earliest Acceptable Time</label><br>
+                <input type="datetime-local" name="dateTimeEarly"><br>
+
+                <label>Latest Acceptable Time</label><br>
+                <input type="datetime-local" name="dateTimeLate"><br>
+
+                <label>Number of Total Passengers(Max of 8)</label><br>
+                <input type="number" name="num_passenger" min="1" max="8"><br>
+                
+                <input type = "submit" value="Search">
+            </form>
         </div><br>
         <h2> Other Options:
             <a href="{% url 'RideRequest' %}">Request For A Ride</a>

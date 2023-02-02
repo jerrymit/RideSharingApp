@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils import timezone
+
 
 
 CAR_CHOICES = (
@@ -42,6 +44,7 @@ class RideRequestInfo(models.Model):
     status = models.CharField(max_length=20, choices=CAR_STATUS, default='OPEN')
     specialRequest = models.CharField(max_length = 200, null=True, default='N/A')
     driver = models.CharField(max_length = 200, null=True, default=None)
+    spotAvaliableLeft = models.PositiveBigIntegerField(default = 0)
     #owner = models.CharField(max_length = 200, null=True, default=None)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
     driver_fname = models.CharField(max_length = 200, null=True, default=None)

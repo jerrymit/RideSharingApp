@@ -32,6 +32,7 @@ def Comfirm(request, id):
     object.driver_fname = user_points.fname
     object.driver_lname = user_points.lname
     object.license = user_points.license
+    object.spotAvaliableLeft = user_points.max_passenger - object.num_passenger
     object.save()
     print(object.owner.email)
     send_mail(
@@ -42,6 +43,23 @@ def Comfirm(request, id):
         fail_silently=False,
     )
     return redirect('DriverPage')
+
+def SharerRideSearch(request):
+    if request.method == "POST":
+        destination = request.POST['address']
+        earlyTime = request.POST['dateTimeEarly']
+        lateTime = request.POST['dateTimeLate']
+        numPassenger = request.POST['num_passenger']
+        objects = RideRequestInfo.objects.filter(isShared = True, status = 'OPEN')
+
+        # objects = objects.filter(address = destination, 
+        #                          dateTime__gte = earlyTime, 
+        #                          dateTime__lte = lateTime,
+        #                          spotAvaliableLeft__gte = numPassenger,
+        #                         )
+        return render(request, "registration/sharer_search.html", {'objects':objects})
+    else:
+        return render(request, "registration/rideshare_page.html")    
 
 def DriverRideSearch(request):
     if request.method == "POST":
@@ -72,6 +90,7 @@ def RideRequest(request):
                 owner = request.user,
                 user = str(request.user.id),
             )
+            print(RideRequest.dateTime)
             return render(request, "registration/owner_page.html")
         else:
             return render(request, "registration/ride_request.html")

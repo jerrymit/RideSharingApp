@@ -11,6 +11,7 @@ urlpatterns = [
     path("driver_info/driver_page/search/", views.DriverRideSearch, name="DriverRideSearch"),
     path('rideRequest/', views.RideRequest, name='RideRequest'),
     path('shareride/', views.Ridesharer, name='Ridesharer'),
+    path("shareride/search/", views.SharerRideSearch, name="SharerRideSearch"),
     path('owner/', views.Owner, name='Owner'),
     path('Driverdb/', views.DriverDB, name = 'DriverDB'),
     path('<int:id>/Request_edit/', views.RequestEdit, name = 'RequestEdit'),
