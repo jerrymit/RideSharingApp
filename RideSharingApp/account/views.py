@@ -102,7 +102,7 @@ def RideRequest(request):
     else:    
         return render(request, "registration/ride_request.html")    
 
-def RequestEdit(request):
+def RequestEdit(request,id):
     if request.method == "POST":
         form = RideRequestForm(request.POST or None)
         if form.is_valid():
@@ -117,12 +117,12 @@ def RequestEdit(request):
             }
             share=request.POST['isShared'], 
             share=(share=="True")
-            ownerR = RideRequestInfo.objects.update_or_create(user = user, defaults=defaults)[0]
+            ownerR = RideRequestInfo.objects.update_or_create(id = id, defaults=defaults)[0]
             return render(request, "registration/owner_page.html", {'ownerR':ownerR})
         else:
-            return render(request, "registration/request_edit.html")
+            return render(request, "registration/request_edit.html",{'id':id})
     else:    
-        return render(request, "registration/request_edit.html")
+        return render(request, "registration/request_edit.html",{'id':id})
 
 
 def DriverDB(request):
