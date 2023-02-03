@@ -13,7 +13,7 @@
         <h1>Ride Sharer's page</h1>
         <div>
             <h2>Ride Status Viewing</h2>
-            <form action = "{% url 'StatusView' %}" method = "POST"> 
+            <form action = "{% url 'ShareStatusView' %}" method = "POST"> 
                 {% csrf_token %}  
                 <input type = "submit" value="View Ride Status">
             </form>

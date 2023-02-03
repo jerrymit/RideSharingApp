@@ -9,16 +9,25 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth 
 from django.urls import reverse
 from django.contrib import messages
-from .models import DriverInfo, RideRequestInfo
+from .models import DriverInfo, RideRequestInfo, SharerInfo
 from .forms import DriverForm, RideRequestForm, CustomUserCreationForm
 from django.core.mail import send_mail
 
 
 def Join(request, id):
+    sharer = request.user
     object = RideRequestInfo.objects.get(id = id)
     object.num_passenger = object.num_passenger * 2
-    object.sharer = request.user.username
+    object.sharer.add(sharer)
     object.save()
+
+    if SharerInfo.objects.filter(user = sharer).exists():
+        shareObject = SharerInfo.objects.filter(user = sharer).involvedRides.add(object)
+        shareObject.save()
+    else:
+        shareObject = SharerInfo.objects.create(user=sharer)
+        shareObject.involvedRides.add(object)
+        shareObject.save()
     return redirect('Ridesharer')
 
 def Complete(request, id):
@@ -157,21 +166,39 @@ def DriverRegister(request):
         form = DriverForm()
         return render(request, "registration/driver_info.html",{})
 
+def ShareStatusView(request):
+    sharer = request.user
+    if SharerInfo.objects.filter(user = sharer).exists():
+        print("here!!!!")
+        shareRides = SharerInfo.objects.get(user = sharer).involvedRides.all()
+        return render(request,"registration/Share_StatusView.html", {'shareRides' : shareRides})
+    else:
+        return render(request,"registration/Share_StatusView.html", {})
+
+    
+
+
 def StatusView(request):
     user = request.user
-    shared = request.user.username
-    #all_status = RideRequestInfo.objects.all
-    status = RideRequestInfo.objects.filter(owner=user)
-    if RideRequestInfo.objects.filter(sharer=shared).exists():
-        status = RideRequestInfo.objects.filter(sharer=shared)
-        #all_status = RideRequestInfo.objects.filter(owner=user)[0]
-        return render(request,"registration/StatusView_Owner.html", {'all' : status})
-    if RideRequestInfo.objects.filter(owner=user).exists():
-        status = RideRequestInfo.objects.filter(owner=user)
-        #all_status = RideRequestInfo.objects.filter(owner=user)[0]
-        return render(request,"registration/StatusView_Owner.html", {'all' : status})
+    if RideRequestInfo.objects.filter(owner = user).exists():
+        owner_status = RideRequestInfo.objects.filter(owner = user)
+        return render(request, "registration/Owner_StatusView.html",{'all': owner_status})
     else:
-        return render(request,"registration/StatusView_Owner.html", {'all' : status})
+        return render(request, "registration/Owner_StatusView.html",{})
+    # status = RideRequestInfo.objects.filter(owner=user)
+    # if RideRequestInfo.objects.filter(sharer=shared).exists():
+    #     status = RideRequestInfo.objects.filter(sharer=shared)
+    
+    #     print('here1')
+    #     return render(request,"registration/StatusView_Owner.html", {'all' : status})
+    # if RideRequestInfo.objects.filter(owner=user).exists():
+    #     status = RideRequestInfo.objects.filter(owner=user)
+    #     print('here2')
+      
+    #     return render(request,"registration/StatusView_Owner.html", {'all' : status})
+    # else:
+    #     print('here3')
+    #     return render(request,"registration/StatusView_Owner.html", {'all' : status})
 
 def DriverPage(request):
     user = request.user

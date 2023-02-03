@@ -35,6 +35,8 @@ class DriverInfo(models.Model):
     def __str__(self):
         return self.carType + "_" + self.lname
 
+
+
 class RideRequestInfo(models.Model):
     address = models.CharField(max_length = 200)
     dateTime = models.DateTimeField(auto_now_add=False, auto_now=False)
@@ -50,9 +52,13 @@ class RideRequestInfo(models.Model):
     driver_fname = models.CharField(max_length = 200, null=True, default=None)
     driver_lname = models.CharField(max_length = 200, null=True, default=None)
     license = models.CharField(max_length = 200, null=True, default=None)
-    sharer = models.CharField(max_length = 200, null=True, default=None)
     user = models.CharField(max_length = 200)
+    sharer = models.ManyToManyField(User, related_name='sharer')
 
 
     def __str__(self):
         return self.address
+
+class SharerInfo(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    involvedRides = models.ManyToManyField(RideRequestInfo)
