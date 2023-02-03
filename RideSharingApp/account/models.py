@@ -50,6 +50,7 @@ class RideRequestInfo(models.Model):
     driver_fname = models.CharField(max_length = 200, null=True, default=None)
     driver_lname = models.CharField(max_length = 200, null=True, default=None)
     license = models.CharField(max_length = 200, null=True, default=None)
+    sharer = models.CharField(max_length = 200, null=True, default=None)
     user = models.CharField(max_length = 200)
 
 

@@ -17,6 +17,7 @@ from django.core.mail import send_mail
 def Join(request, id):
     object = RideRequestInfo.objects.get(id = id)
     object.num_passenger = object.num_passenger * 2
+    object.sharer = request.user.username
     object.save()
     return redirect('Ridesharer')
 
@@ -146,7 +147,6 @@ def DriverRegister(request):
                 'license' : request.POST['license'],
                 'max_passenger' : request.POST['max_passenger'],
             }
-            
             driver = DriverInfo.objects.update_or_create(user = user, defaults=defaults)[0]
             
             #driver = DriverInfo.objects.filter(user = user)
@@ -158,8 +158,20 @@ def DriverRegister(request):
         return render(request, "registration/driver_info.html",{})
 
 def StatusView(request):
-    all_status = RideRequestInfo.objects.all
-    return render(request,"registration/StatusView_Owner.html", {'all' : all_status})
+    user = request.user
+    shared = request.user.username
+    #all_status = RideRequestInfo.objects.all
+    status = RideRequestInfo.objects.filter(owner=user)
+    if RideRequestInfo.objects.filter(sharer=shared).exists():
+        status = RideRequestInfo.objects.filter(sharer=shared)
+        #all_status = RideRequestInfo.objects.filter(owner=user)[0]
+        return render(request,"registration/StatusView_Owner.html", {'all' : status})
+    if RideRequestInfo.objects.filter(owner=user).exists():
+        status = RideRequestInfo.objects.filter(owner=user)
+        #all_status = RideRequestInfo.objects.filter(owner=user)[0]
+        return render(request,"registration/StatusView_Owner.html", {'all' : status})
+    else:
+        return render(request,"registration/StatusView_Owner.html", {'all' : status})
 
 def DriverPage(request):
     user = request.user
