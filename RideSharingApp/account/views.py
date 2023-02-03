@@ -12,7 +12,8 @@ from django.urls import reverse
 from django.contrib import messages
 from .models import DriverInfo, RideRequestInfo, SharerInfo
 from .forms import DriverForm, RideRequestForm, CustomUserCreationForm
-from django.core.mail import send_mail
+from django.core.mail import send_mail, send_mass_mail
+
 
 
 def Join(request, id):
@@ -50,7 +51,7 @@ def Comfirm(request, id):
     object.license = user_points.license
     object.spotAvaliableLeft = user_points.max_passenger - object.num_passenger
     object.save()
-    print(object.owner.email)
+    
     send_mail(
         'Ride Service Status Update',
         'Your requested ride has been comfirmed',
@@ -58,6 +59,14 @@ def Comfirm(request, id):
         [object.owner.email],
         fail_silently=False,
     )
+    recipient_list = [sharer.email for sharer in object.sharer.all()]
+    message = (
+        'Ride Service Status Update', 
+        'Your requested ride has been comfirmed', 
+        'bigjjrideservice@outlook.com', 
+        recipient_list
+    )
+    send_mass_mail((message,))
     return redirect('DriverPage')
 
 def SharerRideSearch(request):
