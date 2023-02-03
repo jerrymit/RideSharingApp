@@ -14,7 +14,7 @@
         <div>
             <h2>Ride Status Viewing</h2>
             
-            <form action = "{% url 'StatusView' %}" method = "POST"> 
+            <form action = "{% url 'Owner_StatusView' %}" method = "POST"> 
                 {% csrf_token %}  
                 <input type = "submit" value="View Ride Status">
             </form>

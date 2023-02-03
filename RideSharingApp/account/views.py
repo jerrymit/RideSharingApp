@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import User, auth 
 from django.urls import reverse
@@ -22,8 +23,7 @@ def Join(request, id):
     object.save()
 
     if SharerInfo.objects.filter(user = sharer).exists():
-        shareObject = SharerInfo.objects.filter(user = sharer).involvedRides.add(object)
-        shareObject.save()
+        shareObject = SharerInfo.objects.get(user = sharer).involvedRides.add(object)
     else:
         shareObject = SharerInfo.objects.create(user=sharer)
         shareObject.involvedRides.add(object)
@@ -128,7 +128,7 @@ def RequestEdit(request,id):
             share=request.POST['isShared'], 
             share=(share=="True")
             ownerR = RideRequestInfo.objects.update_or_create(id = id, defaults=defaults)[0]
-            return render(request, "registration/owner_page.html", {'ownerR':ownerR})
+            return redirect('home')
         else:
             return render(request, "registration/request_edit.html",{'id':id})
     else:    
@@ -178,7 +178,7 @@ def ShareStatusView(request):
     
 
 
-def StatusView(request):
+def Owner_StatusView(request):
     user = request.user
     if RideRequestInfo.objects.filter(owner = user).exists():
         owner_status = RideRequestInfo.objects.filter(owner = user)
