@@ -16,10 +16,10 @@ from django.core.mail import send_mail, send_mass_mail
 
 
 
-def Join(request, id):
+def Join(request, id, numPassenger):
     sharer = request.user
     object = RideRequestInfo.objects.get(id = id)
-    object.num_passenger = object.num_passenger * 2
+    object.num_passenger = object.num_passenger + numPassenger
     object.sharer.add(sharer)
     object.save()
 
@@ -79,9 +79,8 @@ def SharerRideSearch(request):
         objects = objects.filter(address = destination, 
                                  dateTime__gte = earlyTime, 
                                  dateTime__lte = lateTime,
-                                 num_passenger = numPassenger,
                                 )
-        return render(request, "registration/sharer_search.html", {'objects':objects})
+        return render(request, "registration/sharer_search.html", {'objects':objects, 'numPassenger':numPassenger})
     else:
         return render(request, "registration/rideshare_page.html")    
 
@@ -90,7 +89,10 @@ def DriverRideSearch(request):
         carType = request.POST['carType']
         max_cap = request.POST['num_passenger']
         specialR = request.POST['specialRequest']
-        objects = RideRequestInfo.objects.filter(status = 'OPEN').filter(carType = carType).filter(num_passenger__lte = max_cap)
+        if carType != 'Any':
+            objects = RideRequestInfo.objects.filter(carType = carType)
+        else:
+            objects = objects.filter(status = 'OPEN').filter(num_passenger__lte = max_cap)
         if specialR is not None:
            objects = objects.filter(specialRequest = specialR)
         if max_cap is None:
@@ -124,6 +126,7 @@ def RideRequest(request):
 def RequestEdit(request,id):
     if request.method == "POST":
         form = RideRequestForm(request.POST or None)
+        print("here1")
         if form.is_valid():
             user = request.user
             defaults= {
@@ -137,10 +140,13 @@ def RequestEdit(request,id):
             share=request.POST['isShared'], 
             share=(share=="True")
             ownerR = RideRequestInfo.objects.update_or_create(id = id, defaults=defaults)[0]
+            print("here2")
             return redirect('home')
         else:
+            print("here3")
             return render(request, "registration/request_edit.html",{'id':id})
     else:    
+        print("here4")
         return render(request, "registration/request_edit.html",{'id':id})
 
 

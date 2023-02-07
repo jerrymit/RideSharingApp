@@ -18,7 +18,7 @@
                 <p>Request ID: {{ object.id }}</p>
                 <p>Destination: {{ object.address }}</p>
                 <p>Arrival Time: {{ object.dateTime }}</p> 
-                <a href="{% url 'Join' object.id %}">Join This Ride</a>
+                <a href="{% url 'Join' object.id numPassenger%}">Join This Ride</a>
             </h3><hr>
             {% endfor %}
         </div><br>

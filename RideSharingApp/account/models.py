@@ -10,13 +10,15 @@ CAR_CHOICES = (
     ('Sedan', 'Sedan'),
     ('Crossover','Crossover'),
     ('Minivan','Minivan'),
+
 )
 CarRequest_CHOICES = (
+    ('Any','Any'),
     ('SUV','SUV'),
     ('Sedan', 'Sedan'),
     ('Crossover','Crossover'),
     ('Minivan','Minivan'),
-    ('Any','Any'),
+    
 )
 CAR_STATUS = { 
     ('OPEN','OPEN'),
@@ -27,7 +29,7 @@ CAR_STATUS = {
 class DriverInfo(models.Model):
     fname = models.CharField(max_length = 200)
     lname = models.CharField(max_length = 200)
-    carType = models.CharField(max_length=20, choices=CAR_CHOICES, default='SUV')
+    carType = models.CharField(max_length=20, choices=CarRequest_CHOICES, default='Any')
     max_passenger = models.PositiveBigIntegerField(default = 1)
     license = models.CharField(max_length = 200)
     user = models.OneToOneField(User, on_delete = models.CASCADE)
@@ -41,7 +43,7 @@ class RideRequestInfo(models.Model):
     address = models.CharField(max_length = 200)
     dateTime = models.DateTimeField(auto_now_add=False, auto_now=False)
     num_passenger = models.PositiveBigIntegerField(default = 1)
-    carType = models.CharField(max_length=20, choices=CarRequest_CHOICES, default='ANY')
+    carType = models.CharField(max_length=20, choices=CarRequest_CHOICES, default='Any')
     isShared = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=CAR_STATUS, default='OPEN')
     specialRequest = models.CharField(max_length = 200, null=True, default='N/A')
