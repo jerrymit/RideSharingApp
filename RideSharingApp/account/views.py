@@ -105,7 +105,9 @@ def DriverRideSearch(request):
 def RideRequest(request):
     if request.method == "POST":
         form = RideRequestForm(request.POST or None)
+        print("here1")
         if form.is_valid():
+            print("here2")
             share=(request.POST['isShared']=="True")
             RideRequest = RideRequestInfo.objects.create(
                 address = request.POST['address'], 
@@ -117,11 +119,13 @@ def RideRequest(request):
                 owner = request.user,
                 user = str(request.user.id),
             )
-            print(RideRequest.dateTime)
+            #print(RideRequest.dateTime)
             return render(request, "registration/owner_page.html")
         else:
+            print("here3")
             return render(request, "registration/ride_request.html")
-    else:    
+    else:   
+        print("here4") 
         return render(request, "registration/ride_request.html")    
 
 def RequestEdit(request,id):
