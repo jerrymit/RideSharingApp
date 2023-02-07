@@ -18,7 +18,6 @@ CarRequest_CHOICES = (
     ('Sedan', 'Sedan'),
     ('Crossover','Crossover'),
     ('Minivan','Minivan'),
-    
 )
 CAR_STATUS = { 
     ('OPEN','OPEN'),
@@ -29,15 +28,13 @@ CAR_STATUS = {
 class DriverInfo(models.Model):
     fname = models.CharField(max_length = 200)
     lname = models.CharField(max_length = 200)
-    carType = models.CharField(max_length=20, choices=CarRequest_CHOICES, default='Any')
+    carType = models.CharField(max_length=20, choices=CAR_CHOICES, default='SUV')
     max_passenger = models.PositiveBigIntegerField(default = 1)
     license = models.CharField(max_length = 200)
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     
     def __str__(self):
         return self.carType + "_" + self.lname
-
-
 
 class RideRequestInfo(models.Model):
     address = models.CharField(max_length = 200)

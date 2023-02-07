@@ -184,14 +184,10 @@ def DriverRegister(request):
 def ShareStatusView(request):
     sharer = request.user
     if SharerInfo.objects.filter(user = sharer).exists():
-        print("here!!!!")
         shareRides = SharerInfo.objects.get(user = sharer).involvedRides.all()
         return render(request,"registration/Share_StatusView.html", {'shareRides' : shareRides})
     else:
         return render(request,"registration/Share_StatusView.html", {})
-
-    
-
 
 def Owner_StatusView(request):
     user = request.user
