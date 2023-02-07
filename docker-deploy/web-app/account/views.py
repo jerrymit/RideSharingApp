@@ -55,7 +55,7 @@ def Comfirm(request, id):
     send_mail(
         'Ride Service Status Update',
         'Your requested ride has been comfirmed',
-        'bigjjrideservice@outlook.com',
+        'dukesh694@outlook.com',
         [object.owner.email],
         fail_silently=False,
     )
@@ -63,7 +63,7 @@ def Comfirm(request, id):
     message = (
         'Ride Service Status Update', 
         'Your requested ride has been comfirmed', 
-        'bigjjrideservice@outlook.com', 
+        'dukesh694@outlook.com', 
         recipient_list
     )
     send_mass_mail((message,))
