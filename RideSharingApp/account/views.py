@@ -89,10 +89,11 @@ def DriverRideSearch(request):
         carType = request.POST['carType']
         max_cap = request.POST['num_passenger']
         specialR = request.POST['specialRequest']
-        if carType != 'Any':
-            objects = RideRequestInfo.objects.filter(carType = carType)
-        else:
-            objects = objects.filter(status = 'OPEN').filter(num_passenger__lte = max_cap)
+        objects = RideRequestInfo.objects.filter(
+            status = 'OPEN', 
+            num_passenger__lte = max_cap, 
+            carType__in = ['Any', carType]
+        )
         if specialR is not None:
            objects = objects.filter(specialRequest = specialR)
         if max_cap is None:
@@ -126,7 +127,6 @@ def RideRequest(request):
 def RequestEdit(request,id):
     if request.method == "POST":
         form = RideRequestForm(request.POST or None)
-        print("here1")
         if form.is_valid():
             user = request.user
             defaults= {
@@ -140,13 +140,10 @@ def RequestEdit(request,id):
             share=request.POST['isShared'], 
             share=(share=="True")
             ownerR = RideRequestInfo.objects.update_or_create(id = id, defaults=defaults)[0]
-            print("here2")
             return redirect('home')
         else:
-            print("here3")
             return render(request, "registration/request_edit.html",{'id':id})
     else:    
-        print("here4")
         return render(request, "registration/request_edit.html",{'id':id})
 
 
